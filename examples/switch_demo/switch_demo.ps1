@@ -22,7 +22,7 @@ function Hello-Name($name="Bob") {
 
 function Manage-Files {
     param (
-        [bool] $deleteFiles,
+        [bool] $deleteFiles = "false",
         [string] $directoryPath,
         [string[]] $filesToManage
     )
@@ -55,9 +55,47 @@ function Manage-Files {
 
 function Word-Hash-Map {
     param (
-        [bool] $sortDescending,
-        [string[]] $wordArray
+        [bool] $sortDescending = "false",
+        [string[]] $wordArray,
+        [string] $directoryPath,
+        [string] $outFile = "sorted.txt",
+        [string] $delimiter = ";",
+        [bool] $upperCase = "false"
     )
+
+    try {
+        $hashTable = @{}
+        $sortedHastTable =[ordered]@{}
+        $outFilePath = Join-Path $directoryPath $outFile
+
+        foreach($word in $wordArray){
+            if($hashTable.ContainsKey($word)){
+                $hashTable[$word]++
+            } else {
+                if ($upperCase) {
+                    $hashTable.Add($word.ToUpper(), 1)
+                } else {
+                    $hashTable.Add($word.ToLower(), 1)
+                }
+            }
+        }
+
+        Write-Output $hashTable
+
+        if($sortDescending) {
+            $sortedHastTable = $hashTable.GetEnumerator() | Sort-Object -Property key -Descending
+        } else {
+            $sortedHastTable = $hashTable.GetEnumerator() | Sort-Object -Property key
+        } 
+        
+        Write-Output $sortedHastTable
+
+        $sortedHastTable | Select-Object Key,Value | Export-Csv -Path $outFilePath -Delimiter $delimiter -NoTypeInformation
+
+    } catch {
+        Write-Host "An unresolved exception occurred"
+    }
+
 }
 
 function default-fctn {
@@ -84,7 +122,7 @@ try {
         0 { Hello-World }
         1 { Hello-Name($configObj.Name) }
         2 { Manage-Files -deleteFiles $configObj.DeleteFiles -directoryPath $configObj.DirectoryPath -filesToManage $configObj.FilesToManage }
-        3 { Word-Hash-Map -sortDescending $configObj.SortDescending -wordArray $configObj.WordArray }
+        3 { Word-Hash-Map -sortDescending $configObj.SortDescending -wordArray $configObj.WordArray -directoryPath $configObj.DirectoryPath -outFile $configObj.OutFile -delimiter $configObj.Delimiter -upperCase $configObj.UpperCase }
         default { default-fctn }
     }
 
