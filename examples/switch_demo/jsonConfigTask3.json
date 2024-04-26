@@ -5,6 +5,6 @@
     "DirectoryPath": "C:\\Users\\user\\dev\\temp\\ps_temp",
     "OutFile": "sorted.txt",
     "Delimiter": ":",
-    "UpperCase": false
+    "Case": "Upper"
 }
 
