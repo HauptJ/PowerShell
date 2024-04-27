@@ -1,0 +1,10 @@
+{
+    "Task": 3,
+    "SortDescending": false,
+    "WordArray": ["Cherry", "kiwi", "Cherry", "lemon", "honeydew", "apple", "fig", "lemon", "banana", "elderberry"],
+    "DirectoryPath": "C:\\Users\\user\\dev\\temp\\ps_temp",
+    "OutFile": "sorted.txt",
+    "Delimiter": ":",
+    "Case": "Upper"
+}
+

@@ -1,0 +1,6 @@
+{
+    "Task": 2,
+    "DeleteFiles": false,
+    "DirectoryPath": "C:\\Users\\user\\dev\\temp\\ps_temp",
+    "FilesToManage": [ "test.txt", "test1.txt"]
+}
